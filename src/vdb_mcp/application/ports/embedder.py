@@ -1,6 +1,7 @@
 from typing import Protocol
 
 
+# todo: add method for getting embedding dimension
 class Embedder(Protocol):
     """Embedder protocol."""
 
