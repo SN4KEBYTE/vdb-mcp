@@ -3,11 +3,14 @@ from vdb_mcp.application.ports.vector_store import VectorStore
 
 
 class InsertOneUsecase:
+    """Insert document use case."""
+
     def __init__(
         self,
         vector_storage: VectorStore,
         embedder: Embedder,
     ) -> None:
+        """Initialize the use case."""
         self._vector_storage = vector_storage
         self._embedder = embedder
 

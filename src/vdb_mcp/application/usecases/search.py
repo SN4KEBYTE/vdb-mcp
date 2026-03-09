@@ -5,11 +5,14 @@ from vdb_mcp.application.ports.vector_store import VectorStore
 
 
 class SearchUsecase:
+    """Search in collection use case."""
+
     def __init__(
         self,
         vector_storage: VectorStore,
         embedder: Embedder,
     ) -> None:
+        """Initialize the use case."""
         self._vector_storage = vector_storage
         self._embedder = embedder
 
@@ -19,6 +22,7 @@ class SearchUsecase:
         text: str,
         limit: int = 10,
     ) -> str:
+        """Search documents in a vector collection."""
         if limit <= 0:
             raise ValueError("limit must be greater than 0")
 

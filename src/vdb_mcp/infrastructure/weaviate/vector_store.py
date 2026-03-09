@@ -33,11 +33,11 @@ class WeaviateVectorStore(VectorStore):
             properties=[
                 Property(
                     name="document",
-                    data_type=DataType.TEXT,
+                    data_type=DataType.TEXT,  # type: ignore[unknown-argument]
                 ),
                 Property(
                     name="metadata",
-                    data_type=DataType.OBJECT,
+                    data_type=DataType.OBJECT,  # type: ignore[unknown-argument]
                 ),
             ],
         )

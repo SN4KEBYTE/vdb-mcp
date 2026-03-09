@@ -3,11 +3,14 @@ from vdb_mcp.application.ports.vector_store import VectorStore
 
 
 class CreateCollectionUsecase:
+    """Create collection use case."""
+
     def __init__(
         self,
         vector_storage: VectorStore,
         embedder: Embedder,
     ) -> None:
+        """Initialize the use case."""
         self._vector_storage = vector_storage
         self._embedder = embedder
 
@@ -15,6 +18,7 @@ class CreateCollectionUsecase:
         self,
         collection_name: str,
     ) -> str:
+        """Create a vector collection."""
         embedding_dimension = await self._embedder.get_embedding_dimension()
         await self._vector_storage.create_collection(
             collection_name,

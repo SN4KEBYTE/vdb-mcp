@@ -25,6 +25,7 @@ _VECTOR_STORE_PROVIDERS = MappingProxyType(
 def get_embeddings_provider(
     config: VDBMCPConfig,
 ) -> Provider:
+    """Return embeddings provider for the configured backend."""
     provider = config.embeddings_provider
     provider_cls = _EMBEDDINGS_PROVIDERS.get(provider)
 
@@ -39,6 +40,7 @@ def get_embeddings_provider(
 def get_vector_store_provider(
     config: VDBMCPConfig,
 ) -> Provider:
+    """Return vector store provider for the configured backend."""
     provider = config.vector_store_provider
     provider_cls = _VECTOR_STORE_PROVIDERS.get(provider)
 

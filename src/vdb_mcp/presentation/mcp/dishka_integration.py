@@ -22,7 +22,7 @@ def setup_dishka(
     container: AsyncContainer,
     app: FastMCP,
 ) -> None:
-    """Setup dishka integration for FastMCP app."""
+    """Set up Dishka integration for the FastMCP app."""
     app.add_middleware(_ContainerMiddleware())
     app.dishka_container = container  # type: ignore
 
