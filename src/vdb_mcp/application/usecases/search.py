@@ -30,7 +30,9 @@ class SearchUsecase:
         )
 
         if not search_results:
-            return f"No results found in collection '{collection_name}' for query: {text}"
+            return (
+                f"No results found in collection '{collection_name}' for query: {text}"
+            )
 
         def _format_result(
             index: int,

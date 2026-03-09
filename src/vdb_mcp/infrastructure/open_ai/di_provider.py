@@ -16,7 +16,7 @@ class OpenAIEmbedderProvider(Provider):
         self,
     ) -> OpenAIEmbedderConfig:
         """Get OpenAI embedder config."""
-        return OpenAIEmbedderConfig()
+        return OpenAIEmbedderConfig()  # type: ignore[missing-argument]
 
     @provide(scope=Scope.APP)
     async def openai_client(

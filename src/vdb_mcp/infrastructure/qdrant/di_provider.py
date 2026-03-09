@@ -15,7 +15,7 @@ class QdrantVectorStoreProvider(Provider):
         self,
     ) -> QdrantConfig:
         """Get Qdrant config."""
-        return QdrantConfig()
+        return QdrantConfig()  # type: ignore[missing-argument]
 
     @provide(scope=Scope.APP)
     async def qdrant_client(

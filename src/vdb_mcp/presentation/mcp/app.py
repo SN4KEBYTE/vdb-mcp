@@ -17,7 +17,7 @@ def create_mcp_server(
     """Create FastMCP server."""
     # TODO: lifespan with dishka container close
     mcp = FastMCP(name="vdb-mcp-server")
-    mcp.di_container = container
+    setattr(mcp, "di_container", container)
     mcp.add_tool(
         create_collection,
         name="vector-store-create-collection",

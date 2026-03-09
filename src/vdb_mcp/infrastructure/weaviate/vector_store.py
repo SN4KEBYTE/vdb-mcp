@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, cast
 from uuid import uuid4
 
 from weaviate import WeaviateAsyncClient
@@ -31,8 +31,14 @@ class WeaviateVectorStore(VectorStore):
             name=collection_name,
             vectorizer_config=Configure.Vectorizer.none(),
             properties=[
-                Property(name="document", data_type=DataType.TEXT),
-                Property(name="metadata", data_type=DataType.OBJECT),
+                Property(
+                    name="document",
+                    data_type=DataType.TEXT,
+                ),
+                Property(
+                    name="metadata",
+                    data_type=DataType.OBJECT,
+                ),
             ],
         )
 
@@ -75,11 +81,25 @@ class WeaviateVectorStore(VectorStore):
             return_properties=["document", "metadata"],
         )
 
-        return [
-            SearchResult(
-                document=(result.properties or {}).get("document", ""),
-                metadata=(result.properties or {}).get("metadata"),
+        results: list[SearchResult] = []
+        for result in search_results.objects:
+            properties = result.properties
+            if not isinstance(properties, dict):
+                continue
+
+            document = properties.get("document")
+            if not isinstance(document, str):
+                continue
+
+            metadata = properties.get("metadata")
+            if metadata is not None and not isinstance(metadata, dict):
+                metadata = None
+
+            results.append(
+                SearchResult(
+                    document=document,
+                    metadata=cast(dict[str, Any] | None, metadata),
+                )
             )
-            for result in search_results.objects
-            if result.properties is not None
-        ]
+
+        return results

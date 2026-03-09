@@ -1,10 +1,10 @@
-from typing import Any
+from typing import Any, cast
 from uuid import uuid4
 
 from qdrant_client import AsyncQdrantClient
-from qdrant_client.conversions.common_types import VectorParams, Distance, PointStruct
+from qdrant_client.models import Distance, PointStruct, VectorParams
 
-from vdb_mcp.application.ports.vector_store import VectorStore, SearchResult
+from vdb_mcp.application.ports.vector_store import SearchResult, VectorStore
 
 
 class QdrantVectorStore(VectorStore):
@@ -58,7 +58,7 @@ class QdrantVectorStore(VectorStore):
                         "metadata": metadata,
                     },
                 ),
-            ]
+            ],
         )
 
     async def search(
@@ -70,14 +70,29 @@ class QdrantVectorStore(VectorStore):
         """Run vector search in collection."""
         search_results = await self._client.query_points(
             collection_name=collection_name,
-            query=query_embedding,  # type: ignore[arg-type]
+            query=query_embedding,
             limit=limit,
         )
 
-        return [
-            SearchResult(
-                document=point.payload["document"],
-                metadata=point.payload.get("metadata"),
+        results: list[SearchResult] = []
+        for point in search_results.points:
+            payload = point.payload
+            if not isinstance(payload, dict):
+                continue
+
+            document = payload.get("document")
+            if not isinstance(document, str):
+                continue
+
+            metadata = payload.get("metadata")
+            if metadata is not None and not isinstance(metadata, dict):
+                metadata = None
+
+            results.append(
+                SearchResult(
+                    document=document,
+                    metadata=cast(dict[str, Any] | None, metadata),
+                )
             )
-            for point in search_results.points
-        ]
+
+        return results

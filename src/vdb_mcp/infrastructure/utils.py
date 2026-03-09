@@ -29,7 +29,9 @@ def get_embeddings_provider(
     provider_cls = _EMBEDDINGS_PROVIDERS.get(provider)
 
     if provider_cls is None:
-        raise ValueError(f"unknown embeddings provider {provider}, use 'openai' or 'fastembed'")
+        raise ValueError(
+            f"unknown embeddings provider {provider}, use 'openai' or 'fastembed'"
+        )
 
     return provider_cls()
 
@@ -41,6 +43,8 @@ def get_vector_store_provider(
     provider_cls = _VECTOR_STORE_PROVIDERS.get(provider)
 
     if provider_cls is None:
-        raise ValueError(f"unknown vector store provider {provider}, use 'qdrant' or 'weaviate'")
+        raise ValueError(
+            f"unknown vector store provider {provider}, use 'qdrant' or 'weaviate'"
+        )
 
     return provider_cls()

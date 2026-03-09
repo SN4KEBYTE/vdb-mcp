@@ -11,7 +11,7 @@ class FastembedEmbedder(Embedder):
     def __init__(
         self,
         model_name: str,
-        cache_dir: str,
+        cache_dir: str | None,
         threads: int,
     ) -> None:
         """Initialize class object."""
@@ -29,9 +29,7 @@ class FastembedEmbedder(Embedder):
         text: str,
     ) -> list[int | float]:
         """Embed text."""
-        embeddings = await asyncio.to_thread(
-            lambda: list(self._model.embed([text]))
-        )
+        embeddings = await asyncio.to_thread(lambda: list(self._model.embed([text])))
 
         return embeddings[0].tolist()
 

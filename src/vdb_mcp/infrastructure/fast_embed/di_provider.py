@@ -11,7 +11,7 @@ class FastembedEmbedderProvider(Provider):
     @provide(scope=Scope.APP)
     def fastembed_config(self) -> FastembedEmbedderConfig:
         """Get Fastembed embedder config."""
-        return FastembedEmbedderConfig()
+        return FastembedEmbedderConfig()  # type: ignore[missing-argument]
 
     @provide(scope=Scope.APP)
     def fastembed_embedder(
