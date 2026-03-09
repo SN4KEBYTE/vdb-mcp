@@ -13,8 +13,12 @@ class UsecasesProvider(Provider):
     def create_collection_usecase(
         self,
         vector_storage: VectorStore,
+        embedder: Embedder,
     ) -> CreateCollectionUsecase:
-        return CreateCollectionUsecase(vector_storage)
+        return CreateCollectionUsecase(
+            vector_storage,
+            embedder,
+        )
 
     @provide(scope=Scope.APP)
     def delete_collection_usecase(

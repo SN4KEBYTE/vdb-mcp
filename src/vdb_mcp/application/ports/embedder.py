@@ -1,7 +1,6 @@
 from typing import Protocol
 
 
-# todo: add method for getting embedding dimension
 class Embedder(Protocol):
     """Embedder protocol."""
 
@@ -10,3 +9,8 @@ class Embedder(Protocol):
         text: str,
     ) -> list[int | float]:
         """Embed text."""
+
+    async def get_embedding_dimension(
+        self,
+    ) -> int:
+        """Get embedding vector dimension."""

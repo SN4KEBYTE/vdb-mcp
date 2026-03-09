@@ -14,6 +14,7 @@ class OpenAIEmbedder(Embedder):
         """Initialize class object."""
         self._openai_client = openai_client
         self._model = model
+        self._embedding_dimension: int | None = None
 
     async def embed(
         self,
@@ -27,3 +28,15 @@ class OpenAIEmbedder(Embedder):
         )
 
         return response.data[0].embedding
+
+    async def get_embedding_dimension(
+        self,
+    ) -> int:
+        """Get embedding vector dimension."""
+        if self._embedding_dimension is not None:
+            return self._embedding_dimension
+
+        embedding = await self.embed("sample")
+        self._embedding_dimension = len(embedding)
+
+        return self._embedding_dimension

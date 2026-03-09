@@ -24,7 +24,7 @@ def setup_dishka(
 ) -> None:
     """Setup dishka integration for FastMCP app."""
     app.add_middleware(_ContainerMiddleware())
-    app.dishka_container = container
+    app.dishka_container = container  # type: ignore
 
 
 def inject(func: Callable[P, T]) -> Callable[P, T]:
@@ -43,8 +43,8 @@ class _ContainerMiddleware(Middleware):
         """Inject request container into context."""
         ctx = context.fastmcp_context
 
-        async with ctx.fastmcp.dishka_container(scope=Scope.REQUEST) as req_container:
-            ctx.set_state(
+        async with ctx.fastmcp.dishka_container(scope=Scope.REQUEST) as req_container:  # type: ignore
+            ctx.set_state(  # type: ignore
                 _ContainerCtxKey,
                 req_container,
             )

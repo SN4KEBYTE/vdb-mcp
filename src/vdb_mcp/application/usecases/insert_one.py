@@ -11,7 +11,6 @@ class InsertOneUsecase:
         self._vector_storage = vector_storage
         self._embedder = embedder
 
-    # TODO: return msg for llm
     async def insert_one(
         self,
         text: str,
@@ -21,7 +20,8 @@ class InsertOneUsecase:
         embedding = await self._embedder.embed(text)
         await self._vector_storage.insert_one(
             collection_name,
+            text,
             embedding,
         )
 
-        return ""
+        return f"Document inserted into collection '{collection_name}' successfully."

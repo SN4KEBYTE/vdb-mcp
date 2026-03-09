@@ -14,11 +14,11 @@ from vdb_mcp.presentation.mcp.dishka_integration import inject
 @inject
 async def create_collection(
     ctx: Context,
+    create_collection_uc: FromDishka[CreateCollectionUsecase],
     collection_name: Annotated[
         str,
         Field(description="The collection to create"),
     ],
-    create_collection_uc: FromDishka[CreateCollectionUsecase],
 ) -> str:
     """Tool for creating collection."""
     return await create_collection_uc.create_collection(collection_name)
@@ -27,11 +27,11 @@ async def create_collection(
 @inject
 async def delete_collection(
     ctx: Context,
+    delete_collection_uc: FromDishka[DeleteCollectionUsecase],
     collection_name: Annotated[
         str,
         Field(description="The collection to delete"),
     ],
-    delete_collection_uc: FromDishka[DeleteCollectionUsecase],
 ) -> str:
     """Tool for deleting collection."""
     return await delete_collection_uc.delete_collection(collection_name)
@@ -40,6 +40,7 @@ async def delete_collection(
 @inject
 async def search(
     ctx: Context,
+    search_uc: FromDishka[SearchUsecase],
     query: Annotated[
         str,
         Field(description="What to search for"),
@@ -48,18 +49,23 @@ async def search(
         str,
         Field(description="The collection to search in"),
     ],
-    search_uc: FromDishka[SearchUsecase],
-) -> list[str] | None:
+    limit: Annotated[
+        int,
+        Field(description="Maximum number of search results to return", ge=1),
+    ] = 10,
+) -> str:
     """Tool for searching in collection."""
     return await search_uc.search(
         collection_name,
         query,
+        limit,
     )
 
 
 @inject
 async def insert_one(
     ctx: Context,
+    insert_one_uc: FromDishka[InsertOneUsecase],
     information: Annotated[
         str,
         Field(description="Text to store"),
@@ -68,7 +74,6 @@ async def insert_one(
         str,
         Field(description="The collection to store the information in"),
     ],
-    insert_one_uc: FromDishka[InsertOneUsecase],
 ) -> str:
     """Tool for insertion into collection."""
     return await insert_one_uc.insert_one(

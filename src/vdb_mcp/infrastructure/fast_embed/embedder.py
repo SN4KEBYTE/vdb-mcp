@@ -21,6 +21,7 @@ class FastembedEmbedder(Embedder):
             threads,
             providers=["CPUExecutionProvider"],
         )
+        self._embedding_dimension: int | None = None
 
     # TODO: different embeddings for query and passage
     async def embed(
@@ -28,10 +29,22 @@ class FastembedEmbedder(Embedder):
         text: str,
     ) -> list[int | float]:
         """Embed text."""
-        loop = asyncio.get_event_loop()
-        embeddings = await loop.run_in_executor(
-            None,
+        embeddings = await asyncio.to_thread(
             lambda: list(self._model.embed([text]))
         )
 
         return embeddings[0].tolist()
+
+    async def get_embedding_dimension(
+        self,
+    ) -> int:
+        """Get embedding vector dimension."""
+        if self._embedding_dimension is not None:
+            return self._embedding_dimension
+
+        embeddings = await asyncio.to_thread(
+            lambda: list(self._model.embed(["sample"]))
+        )
+        self._embedding_dimension = len(embeddings[0].tolist())
+
+        return self._embedding_dimension

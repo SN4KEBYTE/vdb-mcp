@@ -5,6 +5,8 @@ from dishka import Provider
 from vdb_mcp.config import VDBMCPConfig
 from vdb_mcp.infrastructure.fast_embed.di_provider import FastembedEmbedderProvider
 from vdb_mcp.infrastructure.open_ai.di_provider import OpenAIEmbedderProvider
+from vdb_mcp.infrastructure.qdrant.di_provider import QdrantVectorStoreProvider
+from vdb_mcp.infrastructure.weaviate.di_provider import WeaviateVectorStoreProvider
 
 _EMBEDDINGS_PROVIDERS = MappingProxyType(
     {
@@ -14,8 +16,8 @@ _EMBEDDINGS_PROVIDERS = MappingProxyType(
 )
 _VECTOR_STORE_PROVIDERS = MappingProxyType(
     {
-        "weaviate": ...,
-        "qdrant": ...,
+        "weaviate": WeaviateVectorStoreProvider,
+        "qdrant": QdrantVectorStoreProvider,
     },
 )
 

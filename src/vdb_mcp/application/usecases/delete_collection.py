@@ -8,9 +8,10 @@ class DeleteCollectionUsecase:
     ) -> None:
         self._vector_storage = vector_storage
 
-    # TODO: return msg for llm
     async def delete_collection(
         self,
         collection_name: str,
     ) -> str:
         await self._vector_storage.delete_collection(collection_name)
+
+        return f"Collection '{collection_name}' deleted successfully."
