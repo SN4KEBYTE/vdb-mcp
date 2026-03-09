@@ -10,12 +10,12 @@ from vdb_mcp.presentation.mcp.tools import (
 )
 
 
+# TODO: lifespan with dishka container close
 def create_mcp_server(
     container: AsyncContainer,
     config: VDBMCPConfig,
 ) -> FastMCP:
     """Create FastMCP server."""
-    # TODO: lifespan with dishka container close
     mcp = FastMCP(name="vdb-mcp-server")
     setattr(mcp, "di_container", container)
     mcp.add_tool(
